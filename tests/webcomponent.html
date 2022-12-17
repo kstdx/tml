@@ -1,0 +1,41 @@
+<hello-world></hello-world>
+<script type="module">
+    import htm from 'https://unpkg.com/htm?module'
+    import { tag, compile } from '/src/mod.js'
+
+    const t = htm.bind(tag)
+
+    class HelloWorld extends HTMLElement {
+        constructor() {
+            super()
+
+            this.state = {}
+            this.shadow = this.attachShadow({ mode: 'open' })
+
+            this.init()
+        }
+
+        setState(key, value) {
+            this.state[key] = value
+            this.shadow.innerHTML = ''
+            this.shadow.appendChild(compile(this.render()))
+        }
+
+        init() {
+            this.setState('count', 0)
+        }
+
+        render() {
+            return t`
+                <>
+                    <button $click=${() => {
+                        this.setState('count', this.state.count + 1)
+                    }}>increment</button>
+                    <p>${this.state.count}</p>
+                </>
+            `
+        }
+    }
+
+    customElements.define('hello-world', HelloWorld)
+</script>
