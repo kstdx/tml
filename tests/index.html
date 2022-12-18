@@ -1,22 +1,24 @@
-<div id="root"></div>
+<hello-world text="Hello, world!"></hello-world>
 <script type="module">
-    import htm from 'https://unpkg.com/htm?module'
-    import { tag, compile } from '/src/mod.js'
+    import { $, TMLElement } from '/src/mod.js'
 
-    const t = htm.bind(tag)
+    class HelloWorld extends TMLElement {
+        init() {
+            return {
+                count: 0
+            }
+        }
 
-    const items = ['Apple', 'Orange', 'Melon', 'Lemon']
+        render() {
+            return $`
+            <>
+                <h1>${this.props.text}</h1>
+                <button :click=${() => this.count++}>increment</button>
+                <p>${this.count}</p>
+            </>
+            `
+        }
+    }
 
-    const app = t`
-    <>
-        <button $click=${() => console.log(items)}>Click to log</button>
-        <ul>
-            ${items.map((item) => t`<li>${item}</li>`)}
-        </ul>
-    </>
-`
-
-    console.log(app)
-
-    document.querySelector('#root').appendChild(compile(app))
+    customElements.define('hello-world', HelloWorld)
 </script>
