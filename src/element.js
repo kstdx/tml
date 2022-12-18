@@ -18,26 +18,33 @@ export class TMLElement extends HTMLElement {
                 get: () => {
                     return this.state[key]
                 },
-                set: (value) => {
+                set: async (value) => {
                     this.state[key] = value
-                    this.assign()
+                    await this.assign()
                 }
             })
 
             this[key] = initial[key]
         }
-
-        this.assign()
     }
 
-    assign() {
+    async connectedCallback() {
+        await this.effect()
+        await this.assign()
+    }
+
+    async assign() {
+        const dom = await this.render()
+
         this.root.innerHTML = ''
-        this.root.appendChild(compile(this.render()))
+        this.root.appendChild(compile(dom))
     }
 
     init() {
         return {}
     }
+
+    effect() {}
 
     render() {}
 }
