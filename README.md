@@ -1,13 +1,32 @@
 > WIP
 
+```html
+<hello-world text="Hello, world!"></hello-world>
+<script type="module">
+    import { $, TMLElement } from '/src/mod.js'
+
+    class HelloWorld extends TMLElement {
+        init() {
+            return {
+                count: 0
+            }
+        }
+
+        render() {
+            return $`
+            <>
+                <h1>${this.props.text}</h1>
+                <button :click=${() => this.count++}>increment</button>
+                <p>${this.count}</p>
+            </>
+            `
+        }
+    }
+
+    customElements.define('hello-world', HelloWorld)
+</script>
+
+```
+
 # tml
 tagged markup language
-
-## about
-tml is the binding of htm, also you can use reactivity without existing frameworks like (P)React.
-
-## example
-please launch dev server with this repo and go ```/test/``` dir.
-
-## feedbacks
-please comment in GitHub Issues.
