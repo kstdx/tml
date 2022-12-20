@@ -1,6 +1,6 @@
 const buildProps = (element, props) => {
     for (const attr in props) {
-        if (attr[0] === ':') {
+        if (attr[0] === '@') {
             element.addEventListener(attr.slice(1), props[attr])
         } else {
             element.setAttribute(attr, props[attr])
