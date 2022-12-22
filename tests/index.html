@@ -1,6 +1,6 @@
 <hello-world text="Hello, world!"></hello-world>
 <script type="module">
-    import { tag, compile } from '/src/mod.js'
+    import { $, TMLElement } from '/src/mod.js'
 
     class HelloWorld extends TMLElement {
         init() {
@@ -12,8 +12,9 @@
         render() {
             return $`
             <>
+                <input :value=${(value) => console.log(value)} />
                 <h1>${this.props.text}</h1>
-                <button :click=${() => this.count++}>increment</button>
+                <button @click=${() => this.count++}>increment</button>
                 <p>${this.count}</p>
             </>
             `
