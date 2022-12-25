@@ -1,25 +1,21 @@
 <hello-world text="Hello, world!"></hello-world>
+
 <script type="module">
-    import { $, TMLElement } from '/src/mod.js'
+    import { $, compact, TMLElement } from '/src/mod.js'
 
-    class HelloWorld extends TMLElement {
-        init() {
-            return {
-                count: 0
-            }
-        }
+    const HelloWorld = compact((props) => $`<h1>${props.text}</h1>`)
 
-        render() {
-            return $`
-            <>
-                <input :value=${(value) => console.log(value)} />
-                <h1>${this.props.text}</h1>
-                <button @click=${() => this.count++}>increment</button>
-                <p>${this.count}</p>
-            </>
-            `
-        }
-    }
+    const App = compact(function () {
+        this.init({
+            count: 0
+        })
 
-    customElements.define('hello-world', HelloWorld)
+        return $`
+        <${HelloWorld} text="Hello, world!" />
+        <button @click=${() => this.$count++}>increment</button>
+        <p>${this.$count}</p>
+        `
+    })
+
+    customElements.define('hello-world', App)
 </script>

@@ -1,9 +1,9 @@
 const buildProps = (element, props) => {
-    for (const attr in props) {
-        if (attr[0] === '@') {
-            element.addEventListener(attr.slice(1), props[attr])
+    for (const propName in props) {
+        if (propName[0] === '@') {
+            element.addEventListener(propName.slice(1), props[propName])
         } else {
-            element.setAttribute(attr, props[attr])
+            element.setAttribute(propName, props[propName])
         }
     }
 
@@ -24,7 +24,23 @@ function buildElements(children) {
 
                 return element
             } else {
-                let element = document.createElement(child.tag)
+                let element
+                if (typeof child.tag === 'string') {
+                    element = document.createElement(child.tag)
+                } else {
+                    const elementClass = child.tag
+                    if (
+                        customElements.get(elementClass.uniqueName) ===
+                        undefined
+                    ) {
+                        customElements.define(
+                            elementClass.uniqueName,
+                            elementClass
+                        )
+                    }
+
+                    element = document.createElement(elementClass.uniqueName)
+                }
                 element = buildProps(element, child.props)
 
                 if (child.children.length >= 1) {
@@ -45,18 +61,16 @@ function buildElements(children) {
     })
 }
 
-export const compile = (root) => {
-    let rootElement
-    if (root.tag === '') {
-        rootElement = document.createDocumentFragment()
-    } else {
-        rootElement = document.createElement(root.tag)
-    }
-    rootElement = buildProps(rootElement, root.props)
+export const compile = (elements) => {
+    let root = document.createDocumentFragment()
 
-    for (const child of buildElements(root.children)) {
-        rootElement.appendChild(child)
+    if (!Array.isArray(elements)) {
+        elements = [elements]
     }
 
-    return rootElement
+    for (const child of buildElements(elements)) {
+        root.appendChild(child)
+    }
+
+    return root
 }
