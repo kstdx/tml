@@ -3,9 +3,9 @@
 <script type="module">
     import { $, compact, TMLElement } from '/src/mod.js'
 
-    const HelloWorld = compact((props) => $`<h1>${props.text}</h1>`)
+    const HelloWorld = (props) => $`<h1>${props.text}</h1>`
 
-    const App = compact(function () {
+    const App = function () {
         this.init({
             count: 0
         })
@@ -15,7 +15,7 @@
         <button @click=${() => this.$count++}>increment</button>
         <p>${this.$count}</p>
         `
-    })
+    }
 
-    customElements.define('hello-world', App)
+    customElements.define('hello-world', compact(App))
 </script>

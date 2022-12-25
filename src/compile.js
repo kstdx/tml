@@ -1,3 +1,5 @@
+import { compact } from './element.js'
+
 const buildProps = (element, props) => {
     for (const propName in props) {
         if (propName[0] === '@') {
@@ -13,6 +15,8 @@ const buildProps = (element, props) => {
 function buildElements(children) {
     return children.map((child) => {
         if (typeof child === 'object') {
+            let element
+
             if (Array.isArray(child)) {
                 let element = document.createDocumentFragment()
                 if (child.length >= 1) {
@@ -24,34 +28,49 @@ function buildElements(children) {
 
                 return element
             } else {
-                let element
+                let tagName
                 if (typeof child.tag === 'string') {
                     element = document.createElement(child.tag)
                 } else {
-                    const elementClass = child.tag
-                    if (
-                        customElements.get(elementClass.uniqueName) ===
-                        undefined
-                    ) {
-                        customElements.define(
-                            elementClass.uniqueName,
-                            elementClass
-                        )
+                    if (child.tag.isClass) {
+                        if (
+                            customElements.get(child.tag.uniqueName) ===
+                            undefined
+                        ) {
+                            customElements.define(
+                                child.tag.uniqueName,
+                                child.tag
+                            )
+                        }
+                        tagName = child.tag.uniqueName
+                    } else {
+                        const elementClass = compact(child.tag)
+                        if (
+                            customElements.get(elementClass.uniqueName) ===
+                            undefined
+                        ) {
+                            customElements.define(
+                                elementClass.uniqueName,
+                                elementClass
+                            )
+                        }
+
+                        tagName = elementClass.uniqueName
                     }
 
-                    element = document.createElement(elementClass.uniqueName)
+                    element = document.createElement(tagName)
                 }
-                element = buildProps(element, child.props)
-
-                if (child.children.length >= 1) {
-                    const childElements = buildElements(child.children)
-                    for (const childElement of childElements) {
-                        element.appendChild(childElement)
-                    }
-                }
-
-                return element
             }
+            element = buildProps(element, child.props)
+
+            if (child.children.length >= 1) {
+                const childElements = buildElements(child.children)
+                for (const childElement of childElements) {
+                    element.appendChild(childElement)
+                }
+            }
+
+            return element
         } else {
             const element = document.createDocumentFragment()
             element.textContent = child

@@ -50,21 +50,26 @@ To be honest, the performance is not yet perfect, but it is lightweight and simp
 # Example
 
 ```js
-<x-app text="Hello, world!" />
-<script type="module">
-    import { $, compact } from 'https://cdn.jsdelivr.net/gh/kstdx/tml@1.0/dist/tml.min.js'
+<hello-world text="Hello, world!"></hello-world>
 
-    const App = function(props){
-        this.init({ count: 0 })
+<script type="module">
+    import { $, compact, TMLElement } from '/src/mod.js'
+
+    const HelloWorld = (props) => $`<h1>${props.text}</h1>`
+
+    const App = function () {
+        this.init({
+            count: 0
+        })
 
         return $`
-        <h1>${props.text}</h1>
+        <${HelloWorld} text="Hello, world!" />
         <button @click=${() => this.$count++}>increment</button>
         <p>${this.$count}</p>
         `
     }
 
-    customElements.define('x-app', compact(App))
+    customElements.define('hello-world', compact(App))
 </script>
 ```
 

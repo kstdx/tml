@@ -1,6 +1,7 @@
 import { compile } from './compile.js'
 
 export class TMLElement extends HTMLElement {
+    static isClass = true
     static uniqueName =
         'x-' +
         Math.random().toString(16).slice(2) +
