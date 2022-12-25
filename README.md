@@ -52,7 +52,7 @@ To be honest, the performance is not yet perfect, but it is lightweight and simp
 ```js
 <x-app text="Hello, world!" />
 <script type="module">
-    import { $, compact } from 'https://cdn.jsdelivr.net/gh/kstdx/tml@0.8/dist/tml.min.js'
+    import { $, compact } from 'https://cdn.jsdelivr.net/gh/kstdx/tml@1.0/dist/tml.min.js'
 
     const App = function(props){
         this.init({ count: 0 })
