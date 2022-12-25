@@ -53,7 +53,7 @@ To be honest, the performance is not yet perfect, but it is lightweight and simp
 <hello-world text="Hello, world!"></hello-world>
 
 <script type="module">
-    import { $, compact, TMLElement } from '/src/mod.js'
+    import { $, compact, TMLElement } from 'https://cdn.jsdelivr.net/gh/kstdx/tml@1.1/dist/tml.min.js'
 
     const HelloWorld = (props) => $`<h1>${props.text}</h1>`
 
