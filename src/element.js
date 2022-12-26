@@ -58,9 +58,9 @@ export class TMLElement extends HTMLElement {
 
     async effect(func) {
         if (!this.isEffected) {
-            await func()
-
             this.isEffected = true
+
+            await func()
         }
     }
 

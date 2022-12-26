@@ -1,0 +1,22 @@
+<scratch-ads username="griffpatch"></scratch-ads>
+<script type="module">
+    import { $, compact } from '/src/mod.js'
+
+    customElements.define(
+        'scratch-ads',
+        compact(function (props) {
+            this.init({ data: null })
+
+            this.effect(async () => {
+                this.$data = await (
+                    await fetch(
+                        'https://scratchdb.lefty.one/v3/user/info/' +
+                            this.props.username
+                    )
+                ).json()
+            })
+
+            console.log(this.$data)
+        })
+    )
+</script>
