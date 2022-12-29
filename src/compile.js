@@ -12,7 +12,7 @@ const buildProps = (element, props) => {
     return element
 }
 
-function buildElements(children) {
+const buildElements = (children) => {
     return children.map((child) => {
         if (typeof child === 'object') {
             let element

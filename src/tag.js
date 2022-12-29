@@ -8,4 +8,4 @@ export const tag = (tag, props, ...children) => {
     return { tag, props, children }
 }
 
-export const $ = htm.bind(tag)
+export const html = htm.bind(tag)

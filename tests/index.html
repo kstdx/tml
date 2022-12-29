@@ -1,19 +1,19 @@
 <hello-world text="Hello, world!"></hello-world>
 
 <script type="module">
-    import { $, compact, TMLElement } from '/src/mod.js'
+    import { compact } from '/src/mod.js'
 
-    const HelloWorld = (props) => $`<h1>${props.text}</h1>`
+    const HelloWorld = (me) => me.html`<h1>${me.props.text}</h1>`
 
-    const App = function () {
-        this.init({
+    const App = (me) => {
+        me.init({
             count: 0
         })
 
-        return $`
+        return me.html`
         <${HelloWorld} text="Hello, world!" />
-        <button @click=${() => this.$count++}>increment</button>
-        <p>${this.$count}</p>
+        <button @click=${() => me.$count++}>increment</button>
+        <p>${me.$count}</p>
         `
     }
 
