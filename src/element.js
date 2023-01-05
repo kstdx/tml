@@ -5,6 +5,7 @@ export class TMLElement extends HTMLElement {
     static isClass = true
     static uniqueName = 'x-' + Math.random().toString(16).slice(2)
 
+    #state = {}
     state = {}
     root = this.attachShadow({ mode: 'open' })
     props = {}
@@ -36,19 +37,17 @@ export class TMLElement extends HTMLElement {
             this.isInited = true
 
             for (const key in data) {
-                const stateName = '$' + key
-
-                Object.defineProperty(this, stateName, {
+                Object.defineProperty(this.state, key, {
                     get: () => {
-                        return this.state[stateName]
+                        return this.#state[key]
                     },
                     set: async (value) => {
-                        this.state[stateName] = value
+                        this.#state[key] = value
                         await this.assign()
                     }
                 })
 
-                this[stateName] = data[key]
+                this.#state[key] = data[key]
             }
         }
     }

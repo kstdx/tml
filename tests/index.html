@@ -3,17 +3,17 @@
 <script type="module">
     import { compact } from '/src/mod.js'
 
-    const HelloWorld = (me) => me.html`<h1>${me.props.text}</h1>`
+    const HelloWorld = ($) => $.html`<h1>${$.props.text}</h1>`
 
-    const App = (me) => {
-        me.init({
+    const App = ($) => {
+        $.init({
             count: 0
         })
 
-        return me.html`
-        <${HelloWorld} text="Hello, world!" />
-        <button @click=${() => me.$count++}>increment</button>
-        <p>${me.$count}</p>
+        return $.html`
+            <${HelloWorld} text="Hello, world!" />
+            <button @click=${() => $.state.count++}>increment</button>
+            <p>${$.state.count}</p>
         `
     }
 
